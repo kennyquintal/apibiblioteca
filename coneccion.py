@@ -1,7 +1,7 @@
 import psycopg2
 
 conn = psycopg2.connect(    
-    host="",
-    database="",
-    user="",
-    password="")
+    host="10.10.58.75",
+    database="GESTION_DATOS",
+    user="mjeronimo",
+    password="Mexico123")
