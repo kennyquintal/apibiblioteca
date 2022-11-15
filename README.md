@@ -12,4 +12,12 @@
 
 > pip install Flask
 
+### Agregar un archivo llamado coneccion.py y agregar la siguiente funcion
+
+>import psycopg2
+
+>conn = psycopg2.connect(host="", database="", user="", password="")
+
 ### Instalación de librerias para conectar con postgresSQL
+
+> pip install psycopg2-binary
