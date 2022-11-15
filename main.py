@@ -1,13 +1,13 @@
 from app import app
 from coneccion import conn
 from flask import flash,request,jsonify 
-#from psycopg2.extras import Json
+from psycopg2.extras import RealDictCursor
 
 @app.route('/api/catalogos')
 def catalogos():
     try:
         conexion = conn
-        cursorCatalogo = conexion.cursor()
+        cursorCatalogo = conexion.cursor(cursor_factory=RealDictCursor)
         sql = "select * from catalogo;"
         ##conexion.commit()
         cursorCatalogo.execute(sql)
