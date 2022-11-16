@@ -8,11 +8,13 @@ def obtenerLibros():
         sql = "select * from libro;"
         ##conexion.commit()
         cursorCatalogo.execute(sql)
+        conexion.commit()
         rows = cursorCatalogo.fetchall()
-        return rows
         #conexion.close()
+        return rows
     except Exception as e:
         print(e)
+        return {"No hay libros"}
     finally:
         #cursor.close()
         conexion.close()

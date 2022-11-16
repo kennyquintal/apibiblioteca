@@ -8,9 +8,10 @@ def obtenerCatalogos():
         sql = "select * from catalogo;"
         ##conexion.commit()
         cursorCatalogo.execute(sql)
+        conexion.commit()
         rows = cursorCatalogo.fetchall()
-        return rows
         #conexion.close()
+        return rows
     except Exception as e:
         print(e)
     finally:
