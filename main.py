@@ -2,16 +2,21 @@ from app import app
 from consultas.ObtenerCatalogos import obtenerCatalogos
 from consultas.ObtenerLibros import obtenerLibros
 from inserts.InsertarLibros import insertarLibro
+from connection.coneccion import conn
 from flask import flash,request,jsonify 
 from consultas.ObtenerBibliotecarios import obtenerBibliotecarios
 
 @app.route('/api/catalogos')
 def catalogos():
-    return jsonify(obtenerCatalogos())
+    catalogo = obtenerCatalogos()
+    conn.close()
+    return jsonify(catalogo)
 
 @app.route('/api/libros')
 def libros():
-    return jsonify(obtenerLibros())
+    libros = obtenerLibros()
+    conn.close()
+    return jsonify(libros)
 
 @app.route('/api/libro/' , methods=['POST'])
 def libro():
