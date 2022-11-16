@@ -12,12 +12,17 @@
 
 > pip install Flask
 
-### Agregar un archivo llamado coneccion.py y agregar la siguiente funcion
+### Agregar un archivo llamado .env
 
->import psycopg2
-
->conn = psycopg2.connect(host="", database="", user="", password="")
+```
+ USER = USUARIO DE LA BASE DE DATOS
+ HOST = IP DE LA BASE DE DATOS
+ DB = NOMBRE DE LA BASE DE DATOS
+ PASSWORD = CONTRASEÑA DE LA BASE DE DATOS
+```
 
 ### Instalación de librerias para conectar con postgresSQL
 
 > pip install psycopg2-binary
+
+> pip install python-dotenv
