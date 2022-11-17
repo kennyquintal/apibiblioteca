@@ -3,7 +3,7 @@ from consultas.ObtenerCatalogos import obtenerCatalogos
 from consultas.ObtenerLibros import obtenerLibros
 from consultas.ObtenerBibliotecarios import obtenerBibliotecarios
 from inserts.InsertarLibros import insertarLibro
-#from connection.coneccion import conectar
+from inserts.InsertarCliente import insertarClientes
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
 
@@ -28,6 +28,17 @@ def libro():
     tituloLibro = requestData['Titulo']
     insertar_libros = insertarLibro(autorLibro,edicionLibro,editorialLibro,fkCatalogo,tituloLibro)
     return insertar_libros
+
+@app.route('/api/cliente/', methods=['POST'])
+def cliente():
+    requestData = request.get_json()
+    nombreCliente = requestData['Nombre']
+    direccionCliente = requestData['Direccion']
+    telefonoCliente = requestData['Telefono']
+    emailCliente = requestData['Email']
+    insertar_cliente = insertarClientes(nombreCliente,direccionCliente,telefonoCliente,emailCliente)
+    return insertar_cliente
+
 """
 @app.route('/api/bibliotecario', methods=['POST'])
 def bibliotecarios():
