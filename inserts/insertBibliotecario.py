@@ -1,9 +1,11 @@
-from connection.coneccion import conn
+from connection.coneccion import host,database,user,password
+import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
 
 
 def insertarBibliotecario(nombre, email):
+    conn = psycopg2.connect(host,database,user,password)
     try:
         myDB = conn.cursor()
         fecha_registro = datetime.now()
@@ -12,7 +14,7 @@ def insertarBibliotecario(nombre, email):
         VALUES ('{nombre}', '{email}', '{fecha_registro}');"""
         myDB.execute(query)
         conn.commit()
-        myDB.close()
+        #myDB.close()
         return "Se ingresaron datos"
     except Exception as e:
         print(e)
