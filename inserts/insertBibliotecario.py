@@ -12,11 +12,14 @@ def insertarBibliotecario(nombre, email):
         VALUES ('{nombre}', '{email}', '{fecha_registro}');"""
         myDB.execute(query)
         conn.commit()
-        myDB.close()
+        #conn.close()
         return "Se ingresaron datos"
     except Exception as e:
         print(e)
+        #conn.close()
         return "no se ingresaron los datos"
     finally:
+        #conn.close()
         myDB.close()
-
+        print(conn.closed)
+        print(myDB.closed)
