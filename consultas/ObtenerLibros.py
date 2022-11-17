@@ -1,20 +1,24 @@
-from connection.coneccion import conn
+from connection.coneccion import host,database,user,password
 from psycopg2.extras import RealDictCursor
+import psycopg2
 
 def obtenerLibros():
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    sql = "select * from libro;"
     try:
-        conexion = conn
-        cursorCatalogo = conexion.cursor(cursor_factory=RealDictCursor)
-        sql = "select * from libro;"
-        ##conexion.commit()
+        cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)
         cursorCatalogo.execute(sql)
-        conexion.commit()
         rows = cursorCatalogo.fetchall()
-        #conexion.close()
+        conn.commit()
         return rows
     except Exception as e:
-        print(e)
-        return {"No hay libros"}
+        print("Error in transction Reverting all other operations of a transction ", e)
+        conn.rollback()
     finally:
-        #cursor.close()
-        conexion.close()
+        print("Hay conexion?",conn.closed)
+        if conn:
+            cursorCatalogo.close()
+            conn.close()
+            print(conn.closed)
+            print("conexion cerrada")
+            
