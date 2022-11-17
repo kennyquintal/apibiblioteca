@@ -4,9 +4,14 @@ from consultas.ObtenerLibros import obtenerLibros
 from consultas.ObtenerBibliotecarios import obtenerBibliotecarios
 from inserts.InsertarLibros import insertarLibro
 from inserts.InsertarCliente import insertarClientes
+from consultas.ObtenerClientes import obtenerClientes
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
 
+@app.route('/api/clientes')
+def clientes():
+    clientes = obtenerClientes()
+    return jsonify(clientes)
 
 @app.route('/api/catalogos')
 def catalogos():
