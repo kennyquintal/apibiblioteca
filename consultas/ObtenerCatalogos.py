@@ -8,20 +8,17 @@ load_dotenv()
 
 #conexion = conn
 def obtenerCatalogos():
-    conn = psycopg2.connect(host,database,user,password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
     sql = "select * from catalogo;"
-    #conexion = conn
     cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)
-
     try:
         cursorCatalogo.execute(sql)
         rows = cursorCatalogo.fetchall()
         conn.commit()
         return rows
-    except psycopg2.ProgrammingError as exc:
-        print(exc)
-        #conn.closed
-        #con.rollback()
+    except Exception as e:
+        print("Error in transction Reverting all other operations of a transction ", e)
+        conn.rollback()
         print("Se cerro la conexion en el except")
         #cursorCatalogo = conexion.cursor()
     finally:

@@ -3,24 +3,21 @@ from psycopg2.extras import RealDictCursor
 import psycopg2
 
 def obtenerBibliotecarios():
-    conn = psycopg2.connect(host,database,user,password)
-    try:
-        #conexion = conn
-        cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)
-        sql = "select * from bibliotecario;"
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)
+    sql = "select * from bibliotecario;"
+    try: 
         cursorCatalogo.execute(sql)
         conn.commit()
         rows = cursorCatalogo.fetchall()
-        #conn.close()
         return rows
     except Exception as e:
-        print(e)
+        print("Error in transction Reverting all other operations of a transction ", e)
         conn.rollback()
     finally:
-        #conexion.close()
-        if conn.closed != 0 :
-            print(conn.closed)
-            print("conexion abierta")
-        else:
+        print("Hay conexion?",conn.closed)
+        if conn:
+            cursorCatalogo.close()
+            conn.close()
             print(conn.closed)
             print("conexion cerrada")
