@@ -10,7 +10,7 @@ def insertarBibliotecario(nombre, email):
         myDB = conn.cursor()
         fecha_registro = datetime.now()
         print(fecha_registro)
-        query = f"""INSERT INTO bibliotecario (nombre, email, fecha_registro) 
+        query = f"""INSERT INTO bibliotecario (nombre_empleado, email, fecha_registro) 
         VALUES ('{nombre}', '{email}', '{fecha_registro}');"""
         myDB.execute(query)
         conn.commit()
