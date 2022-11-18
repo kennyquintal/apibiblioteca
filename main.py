@@ -4,9 +4,11 @@ from consultas.ObtenerLibros import obtenerLibros
 from consultas.ObtenerBibliotecarios import obtenerBibliotecarios
 from inserts.InsertarLibros import insertarLibro
 from inserts.InsertarCliente import insertarClientes
+from inserts.InsertarPrestamo import insertarPrestamo
 from consultas.ObtenerClientes import obtenerClientes
 from consultas.HistorialPrestamoLibro import historialPrestamoLibro
 from consultas.ConsultarStatus import obtenerStatus
+from consultas.ConsultarPrestamos import obtenerPrestamos
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
 
@@ -30,6 +32,11 @@ def consultarStatus():
     status = obtenerStatus()
     return jsonify(status)
 
+@app.route('/api/prestamos')
+def Prestamos():
+    prestamos = obtenerPrestamos()
+    return jsonify(prestamos)
+
 @app.route('/api/historial_libro/<libro>')
 def historialPrestamoLibros(libro):
     libros = historialPrestamoLibro(libro)
@@ -45,6 +52,18 @@ def libro():
     tituloLibro = requestData['Titulo']
     insertar_libros = insertarLibro(autorLibro,edicionLibro,editorialLibro,fkCatalogo,tituloLibro)
     return insertar_libros
+
+@app.route('/api/prestamo', methods = ['POST'])
+def Prestamo():
+    requestData = request.get_json()
+    fechaPrestamo = requestData['fecha_de_prestamo']
+    fechaDevolucion = requestData['fecha_devolucion']
+    numeroEmpleado = requestData['fk_numempleado']
+    idCliente = requestData['fk_cliente']
+    idLibro = requestData['fk_libro']
+    idStatus = requestData['fk_estatus']
+    prestamo = insertarPrestamo(fechaPrestamo,fechaDevolucion,numeroEmpleado,idCliente,idLibro,idStatus)
+    return prestamo
 
 @app.route('/api/cliente/', methods=['POST'])
 def cliente():
