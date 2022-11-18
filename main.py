@@ -4,6 +4,7 @@ from consultas.ObtenerLibros import obtenerLibros
 from consultas.ObtenerBibliotecarios import obtenerBibliotecarios
 from inserts.InsertarLibros import insertarLibro
 from inserts.InsertarCliente import insertarClientes
+from inserts.InsertarPrestamo import insertarPrestamo
 from consultas.ObtenerClientes import obtenerClientes
 from consultas.HistorialPrestamoLibro import historialPrestamoLibro
 from consultas.ConsultarStatus import obtenerStatus
@@ -45,6 +46,18 @@ def libro():
     tituloLibro = requestData['Titulo']
     insertar_libros = insertarLibro(autorLibro,edicionLibro,editorialLibro,fkCatalogo,tituloLibro)
     return insertar_libros
+
+@app.route('/api/prestamo', methods = ['POST'])
+def Prestamo():
+    requestData = request.get_json()
+    fechaPrestamo = requestData['fecha_de_prestamo']
+    fechaDevolucion = requestData['fecha_devolucion']
+    numeroEmpleado = requestData['fk_numempleado']
+    idCliente = requestData['fk_cliente']
+    idLibro = requestData['fk_libro']
+    idStatus = requestData['fk_estatus']
+    prestamo = insertarPrestamo(fechaPrestamo,fechaDevolucion,numeroEmpleado,idCliente,idLibro,idStatus)
+    return prestamo
 
 @app.route('/api/cliente/', methods=['POST'])
 def cliente():
