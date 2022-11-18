@@ -1,4 +1,5 @@
 from connection.coneccion import host,database,user,password
+from consultas.ObtenerClientes import obtenerClienteCorreo
 from psycopg2.extras import RealDictCursor
 import psycopg2
 
@@ -16,10 +17,12 @@ def historialPrestamoCliente(emailCliente):
         cursorHistorialPrestamoLibro.execute(sql)
         conn.commit()
         rows = cursorHistorialPrestamoLibro.fetchall()
-        if rows:
-            return rows
-        else:
-            return "No hay prestamos asociados a este cliente"
+        if obtenerClienteCorreo(emailCliente):
+            if rows:
+                return rows
+            else:
+                return {"error": "No exite prestamos asociado a este cliente" }
+        else: return {"error": "no existe el cliente"}
     except Exception as e:
         print("Error in transction Reverting all other operations of a transction ", e)
         conn.rollback()
