@@ -4,7 +4,7 @@ import psycopg2
 def insertarClientes(nombre,direccion,telefono,email):
     conn = psycopg2.connect(host=host,database=database,user=user,password =password)
     cursorInsertarClientes = conn.cursor()
-    query = f"""INSERT INTO cliente (nombre,direccion,telefono,email) 
+    query = f"""INSERT INTO cliente (nombre_cliente,direccion,telefono,email) 
     VALUES ('{nombre}','{direccion}','{telefono}','{email}');"""
     try:
         cursorInsertarClientes.execute(query)
