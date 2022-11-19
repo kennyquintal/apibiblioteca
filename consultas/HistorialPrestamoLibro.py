@@ -1,11 +1,12 @@
 from connection.coneccion import host,database,user,password
 from psycopg2.extras import RealDictCursor
 import psycopg2
+from consultas.ObtenerLibros import obtenerLibroTitulo 
 
 def historialPrestamoLibro(nombreLibro):
     conn = psycopg2.connect(host=host,database=database,user=user,password =password)
     cursorPrestamoLibro = conn.cursor(cursor_factory=RealDictCursor)
-    sql = f"""select nombre,titulo , fecha_de_prestamo , c.email,d.fecha_devolucion,r.fecha_de_renovacion , p.id_prestamos  
+    sql = f"""select titulo,nombre_cliente , fecha_de_prestamo , c.email,d.fecha_devolucion,r.fecha_de_renovacion , p.id_prestamos  
     from libro l
     LEFT JOIN  prestamos p  on l.id_libro  =p.fk_libro  
     LEFT JOIN cliente c on c.id_cliente = p.fk_cliente
@@ -15,7 +16,12 @@ def historialPrestamoLibro(nombreLibro):
         cursorPrestamoLibro.execute(sql)
         conn.commit()
         rows = cursorPrestamoLibro.fetchall()
-        return rows
+        if obtenerLibroTitulo(nombreLibro):
+            if rows:
+                print(rows)
+                return rows
+            else: return {"error": "No exite prestamos asociado a este libro"}
+        else: return {"error": "no existe el libro"}
     except Exception as e:
         print("Error in transction Reverting all other operations of a transction ", e)
         conn.rollback()
