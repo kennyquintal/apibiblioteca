@@ -1,10 +1,11 @@
-from connection.coneccion import host,database,user,password
+from connection.coneccion import host,database,user,password,port
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
 
 def insertarLibro(autor,edicion,editorial,fk_catalogo,titulo):
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
     cursorInsertarlibro = conn.cursor()
     query = f"""INSERT INTO libro (autor,titulo,edicion,editorial,fk_catalogo) 
     VALUES ('{autor}','{titulo}','{edicion}','{editorial}',{fk_catalogo});"""
