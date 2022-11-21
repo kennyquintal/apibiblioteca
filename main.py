@@ -10,6 +10,7 @@ from consultas.HistorialPrestamoLibro import historialPrestamoLibro
 from consultas.ConsultarStatus import obtenerStatus
 from consultas.ConsultarPrestamos import obtenerPrestamos
 from consultas.HistorialPrestamoCliente import historialPrestamoCliente
+from consultas.consultas_especificas.ConsultarLibro import obtenerLibro
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
 
@@ -27,6 +28,11 @@ def catalogos():
 def libros():
     libros = obtenerLibros()
     return jsonify(libros)
+
+@app.route('/api/libro/<titulo_libro>')
+def libroPortitulo(titulo_libro):
+    libroPorTitulo = obtenerLibro(titulo_libro)
+    return jsonify(libroPorTitulo)
 
 @app.route('/api/status')
 def consultarStatus():
