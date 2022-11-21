@@ -1,9 +1,9 @@
-from connection.coneccion import host,database,user,password
+from connection.coneccion import host,database,user,password,port
 from psycopg2.extras import RealDictCursor
 import psycopg2
 
 def obtenerLibros():
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
     sql = "select * from libro;"
     try:
         cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)
@@ -24,7 +24,8 @@ def obtenerLibros():
 
 
 def obtenerLibroTitulo(nombreLibro):
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
     sql = f"""select l.titulo  from libro l where l.titulo = '{nombreLibro}'"""
     try:
         cursorCatalogo = conn.cursor(cursor_factory=RealDictCursor)

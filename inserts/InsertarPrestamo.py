@@ -1,8 +1,9 @@
-from connection.coneccion import host,database,user,password
+from connection.coneccion import host,database,user,password,port
 import psycopg2
 
 def insertarPrestamo(fecha_prestamo,fecha_devolucion,fk_numempleado,fk_cliente,fk_libro,fk_estatus):
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
     cursorInsertarlibro = conn.cursor()
     query = f"""insert into prestamos (fecha_de_prestamo,fecha_devolucion,fk_numempleado,fk_cliente,fk_libro,fk_estatus)
     values ('{fecha_prestamo}', '{fecha_devolucion}', {fk_numempleado},{fk_cliente},{fk_libro},{fk_estatus})"""

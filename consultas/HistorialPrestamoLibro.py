@@ -1,10 +1,11 @@
-from connection.coneccion import host,database,user,password
+from connection.coneccion import host,database,user,password,port
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from consultas.ObtenerLibros import obtenerLibroTitulo 
 
 def historialPrestamoLibro(nombreLibro):
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
     cursorPrestamoLibro = conn.cursor(cursor_factory=RealDictCursor)
     sql = f"""select titulo,nombre_cliente , fecha_de_prestamo , c.email,d.fecha_devolucion,r.fecha_de_renovacion , p.id_prestamos  
     from libro l

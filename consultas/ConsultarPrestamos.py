@@ -1,16 +1,17 @@
-from connection.coneccion import host,database,user,password
+from connection.coneccion import host,database,user,password,port
 from psycopg2.extras import RealDictCursor
 import psycopg2
 
 def obtenerPrestamos():
-    conn = psycopg2.connect(host=host,database=database,user=user,password =password)
-    sql = f"""select pre.id_prestamos, c.nombre_cliente , l.titulo , b.nombre_empleado , e.estado, 
-    pre.fecha_de_prestamo , pre.fecha_registro , pre.fecha_ultimaactualizacion
-    from prestamos as pre 
-    inner join cliente c on c.id_cliente = pre.fk_cliente 
-    inner join libro l on l.id_libro  = pre.fk_libro 
-    inner join bibliotecario b on b.no_empleado = pre.fk_numempleado
-    inner join estatus e on e.id = pre.fk_estatus;"""
+    #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
+    conn = psycopg2.connect(host=host,database=database,user=user,password =password,port=port)
+    sql = f"""select p.id_prestamos, p.fecha_de_prestamo, p.fecha_devolucion , p.fecha_registro , p.fecha_ultimaactualizacion,c.nombre_cliente , l.titulo , b.nombre_empleado , e.estado
+    from prestamos p 
+    inner join libro l on l.id_libro  = p.fk_libro
+    inner join cliente c on p.fk_cliente = c.id_cliente  
+    inner join bibliotecario b on b.no_empleado = p.fk_numempleado
+    inner join estatus e on e.id = p.fk_estatus
+    where fk_libro = l.id_libro order by p.id_prestamos asc;"""
     cursorPrestamos = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursorPrestamos.execute(sql)
