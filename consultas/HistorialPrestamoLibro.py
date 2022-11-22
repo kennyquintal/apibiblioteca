@@ -2,6 +2,8 @@ from connection.coneccion import host,database,user,password,port
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from consultas.ObtenerLibros import obtenerLibroTitulo 
+from flask import jsonify 
+import json
 
 def historialPrestamoLibro(nombreLibro):
     #conn = psycopg2.connect(host=host,database=database,user=user,password =password)
@@ -17,14 +19,21 @@ def historialPrestamoLibro(nombreLibro):
         cursorPrestamoLibro.execute(sql)
         conn.commit()
         rows = cursorPrestamoLibro.fetchall()
+        #accederemos al id de prestamos para saber si hay prestamos referente al libro buscado
+        dato = jsonify(rows)
+        datos = json.dumps(dato.get_json())
+        data = json.loads(datos)
+        prestamo = data[0]['id_prestamos']
         if obtenerLibroTitulo(nombreLibro):
             if rows:
-                print(rows)
-                return rows
+                if prestamo is not None:
+                    return rows
+                else: return {"error":"No existe prestamos asociados a este libro"}
             else: return {"error": "No exite prestamos asociado a este libro"}
         else: return {"error": "no existe el libro"}
     except Exception as e:
         print("Error in transction Reverting all other operations of a transction ", e)
+        return {"error":"Error algo salio mal"}
         conn.rollback()
     finally:
         print("Hay conexion?",conn.closed)
