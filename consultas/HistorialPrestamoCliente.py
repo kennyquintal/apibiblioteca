@@ -26,6 +26,7 @@ def historialPrestamoCliente(emailCliente):
         else: return {"error": "no existe el cliente"}
     except Exception as e:
         print("Error in transction Reverting all other operations of a transction ", e)
+        return {"error":" Error algo salio mal"}
         conn.rollback()
     finally:
         print("Hay conexion?",conn.closed)

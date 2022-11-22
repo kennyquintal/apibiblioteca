@@ -11,8 +11,14 @@ from consultas.ConsultarStatus import obtenerStatus
 from consultas.ConsultarPrestamos import obtenerPrestamos
 from consultas.HistorialPrestamoCliente import historialPrestamoCliente
 from consultas.consultas_especificas.ConsultarLibro import obtenerLibro
+from consultas.ObtenerDevoluciones import obtenerDevoluciones
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
+
+@app.route('/api/devoluciones')
+def devoluciones():
+    devoluciones = obtenerDevoluciones()
+    return jsonify(devoluciones)
 
 @app.route('/api/clientes')
 def clientes():
