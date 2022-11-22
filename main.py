@@ -12,6 +12,7 @@ from consultas.ConsultarPrestamos import obtenerPrestamos
 from consultas.HistorialPrestamoCliente import historialPrestamoCliente
 from consultas.consultas_especificas.ConsultarLibro import obtenerLibro
 from consultas.ObtenerDevoluciones import obtenerDevoluciones
+from consultas.consultas_especificas.ObtenerDevolucionesPorCliente import obtenerDevolucionesPorCliente
 from flask import flash,request,jsonify 
 #from inserts.insertBibliotecario import insertarBibliotecario
 
@@ -19,6 +20,11 @@ from flask import flash,request,jsonify
 def devoluciones():
     devoluciones = obtenerDevoluciones()
     return jsonify(devoluciones)
+
+@app.route('/api/devolucionesporcliente/<nombre_cliente>')
+def devolucionesPorCliente(nombre_cliente):
+    devoluciones_por_cliente = obtenerDevolucionesPorCliente(nombre_cliente)
+    return jsonify(devoluciones_por_cliente)
 
 @app.route('/api/clientes')
 def clientes():
